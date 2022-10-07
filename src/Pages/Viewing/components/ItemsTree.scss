@@ -1,0 +1,90 @@
+.treeContainer{
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--text-color) !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .rowStyles{
+    height: 60px;
+    box-sizing: border-box;
+    &:last-child{
+      td{
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.topLevelIcon{
+  position: relative;
+  z-index: 999;
+  span{
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 1px;
+      top: 70px;
+      left: -10px;
+      background: #C6C6C6;
+    }
+    &::before{
+      content: "";
+      position: absolute;
+      bottom: -52px;
+      height: 52px;
+      width: 1px;
+      right: 10px;
+      background: #C6C6C6;
+    }
+  }
+}
+
+.iconsCont{
+  display: flex;
+  width: 1px;
+  box-sizing: border-box;
+  .addStrIcon{
+    margin-left: 0.5rem;
+    cursor: pointer;
+    opacity: 1;
+    transition: 0.3s;
+  }
+  .opacity{
+    opacity: 0;
+  }
+}
+
+.secondLevelIcon{
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  z-index: 999;
+}
+
+.listIcon{
+  span{
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 1px;
+      top: 10px;
+      left: -26px;
+      background: #C6C6C6;
+    }
+    &::before{
+      content: "";
+      position: absolute;
+      bottom: 8px;
+      height: 60px;
+      width: 1px;
+      left: -27px;
+      background: #C6C6C6;
+    }
+  }
+}
+

@@ -16,9 +16,12 @@
   }
 }
 
-.topLevelIcon{
+.topLevelIcon, .secondLevelIcon{
   position: relative;
   z-index: 999;
+  img{
+    background: var(--background-color);
+  }
   span{
     position: relative;
     &::after{
@@ -44,8 +47,8 @@
 
 .iconsCont{
   display: flex;
-  width: 1px;
   box-sizing: border-box;
+  align-items: center;
   .addStrIcon{
     margin-left: 0.5rem;
     cursor: pointer;
@@ -55,13 +58,6 @@
   .opacity{
     opacity: 0;
   }
-}
-
-.secondLevelIcon{
-  position: relative;
-  display: flex;
-  box-sizing: border-box;
-  z-index: 999;
 }
 
 .listIcon{

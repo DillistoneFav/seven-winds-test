@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './ItemsTree.scss'
 import DataStore from "../../../Store/DataStore";
 import {observer} from "mobx-react";
@@ -7,17 +7,20 @@ import {RowData} from "../../../Interfaces/RowData";
 import {Input, Table} from "antd";
 import topLevelIcon from "../../../Assets/1stLevelItems.svg"
 import secondLevelIcon from "../../../Assets/secondLevelItems.svg"
+import deeperLevelIcon from "../../../Assets/deeperItems.png"
 import listIcon from "../../../Assets/ItemExactlyIcon.svg"
-import {calculatePrice, checkChilds, checkIfParentTopLevel, editRow, handleAddRow} from "./functions";
+import {calculatePrice, checkChilds, editRow, handleAddRow, checkParentsCount} from "./functions";
 
 const ItemsTree = observer(() => {
-    const [isEditing, setIsEditing] = useState<boolean>(true)
+    const [isEditing, setIsEditing] = useState<boolean>(false) // true
     const [rowIndexForButton, setRowIndexForButton] = useState<number>(-1)
     const {Rows} = DataStore
-    const [editingRow, setEditingRow] = useState<RowData>(Rows[0])
+    const [editingRow, setEditingRow] = useState<RowData>({} as RowData) // Rows[0]
+
 
     useEffect(() => {
         calculatePrice(Rows)
+        // eslint-disable-next-line
     }, [])
 
     const handleInputChange = (prop: keyof RowData) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,36 +40,46 @@ const ItemsTree = observer(() => {
             title: 'Уровень',
             dataIndex: 'parent',
             key: 'Level',
-            width: 130,
+            width: 200,
             render: (value, record, index) => {
                 if (record.parent !== null && record.type === "level") {
                     return (
                         <div className={"iconsCont"}>
                             <div className={"secondLevelIcon"}>
-                                <img src={secondLevelIcon} alt={"icon"} style={{marginLeft: "20px"}}/>
-                                <span></span>
+                                <img
+                                    src={checkParentsCount(record, Rows) === 1 ? secondLevelIcon : deeperLevelIcon}
+                                    alt={"icon"}
+                                    style={{marginLeft: `calc(${checkParentsCount(record, Rows)} * 20px`, width: "20px", height: "16px", zIndex: "999"}}
+                                />
+                                {checkChilds(record.id, Rows).length && checkChilds(record.id, Rows)[0].type !== "row" ?
+                                    <span></span>
+                                    :
+                                    <></>
+                                }
                             </div>
                             {!isEditing &&
-                                <img
-                                    src={listIcon}
-                                    alt={"icon"}
-                                    style={editingRow.id !== record.id ? {display: "block"} : {display: "none"}}
-                                    className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
-                                    onClick={handleAddRow("addList", record, Rows, setIsEditing, setEditingRow)}
-                                />
+                                <>
+                                    <img
+                                        src={deeperLevelIcon}
+                                        alt={"icon"}
+                                        style={editingRow.id !== record.id ? {display: "block", width: "20px", height: "16px"} : {display: "none"}}
+                                        className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
+                                        onClick={handleAddRow("addDeepLevelParent", record, Rows, setIsEditing, setEditingRow)}
+                                    />
+                                    <img
+                                        src={listIcon}
+                                        alt={"icon"}
+                                        style={editingRow.id !== record.id ? {display: "block"} : {display: "none"}}
+                                        className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
+                                        onClick={handleAddRow("addList", record, Rows, setIsEditing, setEditingRow)}
+                                    />
+                                </>
                             }
-                        </div>
-                    )
-                } else if (record.type === "row" && checkIfParentTopLevel(record.parent!, Rows)) {
-                    return (
-                        <div className={"listIcon"} style={{paddingLeft: "20px"}}>
-                            <img src={listIcon} alt={"icon"}/>
-                            <span></span>
                         </div>
                     )
                 } else if (record.type === "row") {
                     return (
-                        <div className={"listIcon"} style={{paddingLeft: "40px"}}>
+                        <div className={"listIcon"} style={{marginLeft: `calc(${checkParentsCount(record, Rows)} * 20px`}}>
                             <img src={listIcon} alt={"icon"}/>
                             <span></span>
                         </div>
@@ -201,7 +214,7 @@ const ItemsTree = observer(() => {
                 onRow={(record, rowIndex) => {
                     return {
                         onMouseEnter: event => {
-                            setRowIndexForButton(rowIndex!)
+                            record.type === "level" && setRowIndexForButton(rowIndex!)
                         },
                         onMouseLeave: event => {
                             setRowIndexForButton(-1)

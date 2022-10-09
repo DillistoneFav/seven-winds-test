@@ -50,12 +50,6 @@ export const checkChilds = (parentId: number, rowData: RowData[]) => {
     })
 }
 
-export const checkIfParentTopLevel = (parentId: number, rowData: RowData[]) => {
-    let rows: RowData[] = [...rowData]
-    let parent = rows.find(item => item.id === parentId)
-    return parent!.parent === null
-}
-
 export const handleAddRow = (
         functionCase: string,
         row: RowData,
@@ -67,21 +61,21 @@ export const handleAddRow = (
     let arr = [...rowData]
     let childs: RowData[];
     let rowIndex: number = 0;
-    let addingObj: RowData = {} as RowData;
+    let addingObj: RowData = {
+        id: Math.max(...arr.map((v) => v.id), 0) + 1,
+        title: "",
+        unit: "",
+        quantity: 0,
+        unitPrice: 0,
+        price: 0,
+        parent: row.id,
+        type: "level"
+    } as RowData;
 
     switch (functionCase) {
         case "addTopLevel":
             rowIndex = arr.findIndex(item => item.id === arr[arr.length - 1].id)
-            addingObj = {
-                id: Math.max(...arr.map((v) => v.id), 0) + 1,
-                title: "",
-                unit: "",
-                quantity: 0,
-                unitPrice: 0,
-                price: 0,
-                parent: null,
-                type: "level"
-            }
+            addingObj.parent = null
             break;
 
         case "addSecondLevel":
@@ -94,54 +88,49 @@ export const handleAddRow = (
             } else {
                 rowIndex = arr.findIndex(item => item.id === row.id)
             }
-
-            addingObj = {
-                id: Math.max(...arr.map((v) => v.id), 0) + 1,
-                title: "",
-                unit: "",
-                quantity: 0,
-                unitPrice: 0,
-                price: 0,
-                parent: row.id,
-                type: "level"
-            }
             break;
 
         case "addList":
+            rowIndex = arr.findIndex(item => item.id === row.id)
+            addingObj.type = "row"
+            break;
+
+        case "addListWithTopLevelParent":
+            rowIndex = arr.findIndex(item => item.id === row.id)
+            addingObj.type = "row"
+            break;
+
+        case "addDeepLevelParent":
+            // eslint-disable-next-line
             childs = arr.filter(item => {
-                return item.parent === row.id
+                if (item.parent === row.id && item.type === "row") return item
             })
             childs.length ?
                 rowIndex = arr.findIndex(item => item.id === childs[childs.length - 1].id)
                 :
                 rowIndex = arr.findIndex(item => item.id === row.id)
-            addingObj = {
-                id: Math.max(...arr.map((v) => v.id), 0) + 1,
-                title: "",
-                unit: "",
-                quantity: 0,
-                unitPrice: 0,
-                price: 0,
-                parent: row.id,
-                type: "row"
-            }
-            break;
-
-        case "addListWithTopLevelParent":
-            rowIndex = arr.findIndex(item => item.id === row.id)
-            addingObj = {
-                id: Math.max(...arr.map((v) => v.id), 0) + 1,
-                title: "",
-                unit: "",
-                quantity: 0,
-                unitPrice: 0,
-                price: 0,
-                parent: row.id,
-                type: "row"
-            }
-            break;
     }
+
     arr.splice(rowIndex + 1, 0, addingObj)
     setEditingRow(arr[rowIndex + 1])
     return DataStore.setRows(arr)
+}
+
+export const checkParentsCount = (row: RowData, rows: RowData[]) => {
+    let parentsCount: number = 0;
+
+    if (row.parent === null) return parentsCount
+    let currentParentIndex = rows.findIndex((item) => item.id === row.parent)
+
+    if (currentParentIndex === -1) return parentsCount
+    let currentParent = rows[currentParentIndex]
+
+    do {
+        parentsCount += 1
+        // eslint-disable-next-line
+        currentParentIndex = rows.findIndex((item) => item.id === currentParent.parent)
+        currentParent = rows[currentParentIndex]
+    } while (currentParentIndex !== -1)
+
+    return parentsCount
 }

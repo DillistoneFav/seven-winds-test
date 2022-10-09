@@ -57,15 +57,16 @@ const ItemsTree = observer(() => {
                                     <></>
                                 }
                             </div>
+                            {!isEditing && checkParentsCount(record, Rows) < 6 &&
+                                <img
+                                    src={deeperLevelIcon}
+                                    alt={"icon"}
+                                    style={editingRow.id !== record.id ? {display: "block", width: "20px", height: "16px"} : {display: "none"}}
+                                    className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
+                                    onClick={handleAddRow("addDeepLevelParent", record, Rows, setIsEditing, setEditingRow)}
+                                />
+                            }
                             {!isEditing &&
-                                <>
-                                    <img
-                                        src={deeperLevelIcon}
-                                        alt={"icon"}
-                                        style={editingRow.id !== record.id ? {display: "block", width: "20px", height: "16px"} : {display: "none"}}
-                                        className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
-                                        onClick={handleAddRow("addDeepLevelParent", record, Rows, setIsEditing, setEditingRow)}
-                                    />
                                     <img
                                         src={listIcon}
                                         alt={"icon"}
@@ -73,7 +74,6 @@ const ItemsTree = observer(() => {
                                         className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
                                         onClick={handleAddRow("addList", record, Rows, setIsEditing, setEditingRow)}
                                     />
-                                </>
                             }
                         </div>
                     )

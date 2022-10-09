@@ -132,7 +132,7 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 return (
                     editingRow.id === record.id ?
-                        <Input required id={"Title"} value={editingRow.title} onChange={handleInputChange('title')}
+                        <Input required id={"Title"} placeholder={"Название"} value={editingRow.title} onChange={handleInputChange('title')}
                                onKeyPress={handleEnterPress}/>
                         :
                         value
@@ -147,7 +147,7 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 if (editingRow.id === record.id && record.type !== "level") {
                     return (
-                        <Input required value={editingRow.unit} onChange={handleInputChange('unit')}
+                        <Input required placeholder={"Ед. измерения"} value={editingRow.unit} onChange={handleInputChange('unit')}
                                onKeyPress={handleEnterPress}/>
                     )
                 }
@@ -164,7 +164,7 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 if (editingRow.id === record.id && record.type !== "level") {
                     return (
-                        <Input required value={editingRow.quantity} onChange={handleInputChange('quantity')}
+                        <Input required value={editingRow.quantity} placeholder={"Количество"} onChange={handleInputChange('quantity')}
                                onKeyPress={handleEnterPress}/>
                     )
                 }
@@ -181,7 +181,7 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 if (editingRow.id === record.id && record.type !== "level") {
                     return (
-                        <Input required value={editingRow.unitPrice} onChange={handleInputChange('unitPrice')}
+                        <Input required value={editingRow.unitPrice} placeholder={"Цена за ед."} onChange={handleInputChange('unitPrice')}
                                onKeyPress={handleEnterPress}/>
                     )
                 }

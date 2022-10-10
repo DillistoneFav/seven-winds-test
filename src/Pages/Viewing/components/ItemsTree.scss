@@ -22,6 +22,14 @@
   img{
     background: var(--background-color);
   }
+  .levelOnRedFolder{
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--background-color);
+  }
   span{
     position: relative;
     &::after{

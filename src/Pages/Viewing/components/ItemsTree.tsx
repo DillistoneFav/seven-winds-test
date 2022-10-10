@@ -51,13 +51,18 @@ const ItemsTree = observer(() => {
                                     alt={"icon"}
                                     style={{marginLeft: `calc(${checkParentsCount(record, Rows)} * 20px`, width: "20px", height: "16px", zIndex: "999"}}
                                 />
+                                {checkParentsCount(record, Rows) > 1 ?
+                                    <div className={"levelOnRedFolder"}>{checkParentsCount(record, Rows)+1}</div>
+                                    :
+                                    <></>
+                                }
                                 {checkChilds(record.id, Rows).length && checkChilds(record.id, Rows)[0].type !== "row" ?
                                     <span></span>
                                     :
                                     <></>
                                 }
                             </div>
-                            {!isEditing && checkParentsCount(record, Rows) < 6 &&
+                            {!isEditing && checkParentsCount(record, Rows) < 4 &&
                                 <img
                                     src={deeperLevelIcon}
                                     alt={"icon"}

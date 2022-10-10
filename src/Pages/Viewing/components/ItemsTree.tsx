@@ -12,10 +12,10 @@ import listIcon from "../../../Assets/ItemExactlyIcon.svg"
 import {calculatePrice, checkChilds, editRow, handleAddRow, checkParentsCount} from "./functions";
 
 const ItemsTree = observer(() => {
-    const [isEditing, setIsEditing] = useState<boolean>(false) // true
+    const [isEditing, setIsEditing] = useState<boolean>(true)
     const [rowIndexForButton, setRowIndexForButton] = useState<number>(-1)
     const {Rows} = DataStore
-    const [editingRow, setEditingRow] = useState<RowData>({} as RowData) // Rows[0]
+    const [editingRow, setEditingRow] = useState<RowData>(Rows[0])
 
 
     useEffect(() => {

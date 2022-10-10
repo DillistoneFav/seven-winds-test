@@ -63,7 +63,7 @@ const ItemsTree = observer(() => {
                                     alt={"icon"}
                                     style={editingRow.id !== record.id ? {display: "block", width: "20px", height: "16px"} : {display: "none"}}
                                     className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
-                                    onClick={handleAddRow("addDeepLevelParent", record, Rows, setIsEditing, setEditingRow)}
+                                    onClick={handleAddRow("addChildLevel", record, Rows, setIsEditing, setEditingRow)}
                                 />
                             }
                             {!isEditing &&
@@ -109,14 +109,14 @@ const ItemsTree = observer(() => {
                                     alt={"icon"}
                                     style={editingRow.id !== record.id ? {display: "block"} : {display: "none"}}
                                     className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
-                                    onClick={handleAddRow("addSecondLevel", record, Rows, setIsEditing, setEditingRow)}
+                                    onClick={handleAddRow("addChildLevel", record, Rows, setIsEditing, setEditingRow)}
                                 />
                                 <img
                                     src={listIcon}
                                     alt={"icon"}
                                     style={editingRow.id !== record.id ? {display: "block"} : {display: "none"}}
                                     className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
-                                    onClick={handleAddRow("addListWithTopLevelParent", record, Rows, setIsEditing, setEditingRow)}
+                                    onClick={handleAddRow("addList", record, Rows, setIsEditing, setEditingRow)}
                                 />
                             </>
                         }

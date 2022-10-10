@@ -78,29 +78,7 @@ export const handleAddRow = (
             addingObj.parent = null
             break;
 
-        case "addSecondLevel":
-            childs = arr.filter(item => {
-                return item.parent === row.id
-            })
-            if (childs.length) {
-                let childsArray = arr.filter(item => item.parent === childs[childs.length - 1].id)
-                rowIndex = arr.findIndex(item => item.id === childsArray[childsArray.length - 1].id)
-            } else {
-                rowIndex = arr.findIndex(item => item.id === row.id)
-            }
-            break;
-
-        case "addList":
-            rowIndex = arr.findIndex(item => item.id === row.id)
-            addingObj.type = "row"
-            break;
-
-        case "addListWithTopLevelParent":
-            rowIndex = arr.findIndex(item => item.id === row.id)
-            addingObj.type = "row"
-            break;
-
-        case "addDeepLevelParent":
+        case "addChildLevel":
             // eslint-disable-next-line
             childs = arr.filter(item => {
                 if (item.parent === row.id && item.type === "row") return item
@@ -109,6 +87,12 @@ export const handleAddRow = (
                 rowIndex = arr.findIndex(item => item.id === childs[childs.length - 1].id)
                 :
                 rowIndex = arr.findIndex(item => item.id === row.id)
+            break
+
+        case "addList":
+            rowIndex = arr.findIndex(item => item.id === row.id)
+            addingObj.type = "row"
+            break;
     }
 
     arr.splice(rowIndex + 1, 0, addingObj)

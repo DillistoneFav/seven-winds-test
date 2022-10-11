@@ -42,27 +42,29 @@ const ItemsTree = observer(() => {
             key: 'Level',
             width: 200,
             render: (value, record, index) => {
+                let parentsCount = checkParentsCount(record, Rows)
+                let childs = checkChilds(record.id, Rows)
                 if (record.parent !== null && record.type === "level") {
                     return (
                         <div className={"iconsCont"}>
                             <div className={"secondLevelIcon"}>
                                 <img
-                                    src={checkParentsCount(record, Rows) === 1 ? secondLevelIcon : deeperLevelIcon}
+                                    src={parentsCount === 1 ? secondLevelIcon : deeperLevelIcon}
                                     alt={"icon"}
-                                    style={{marginLeft: `calc(${checkParentsCount(record, Rows)} * 20px`, width: "20px", height: "16px", zIndex: "999"}}
+                                    style={{marginLeft: `calc(${parentsCount} * 20px`, width: "20px", height: "16px", zIndex: "999"}}
                                 />
-                                {checkParentsCount(record, Rows) > 1 ?
-                                    <div className={"levelOnRedFolder"}>{checkParentsCount(record, Rows)+1}</div>
+                                {parentsCount > 1 ?
+                                    <div className={"levelOnRedFolder"}>{parentsCount+1}</div>
                                     :
                                     <></>
                                 }
-                                {checkChilds(record.id, Rows).length && checkChilds(record.id, Rows)[0].type !== "row" ?
+                                {childs.length && childs[0].type !== "row" ?
                                     <span></span>
                                     :
                                     <></>
                                 }
                             </div>
-                            {!isEditing && checkParentsCount(record, Rows) < 4 &&
+                            {!isEditing && parentsCount < 4 &&
                                 <img
                                     src={deeperLevelIcon}
                                     alt={"icon"}
@@ -84,7 +86,7 @@ const ItemsTree = observer(() => {
                     )
                 } else if (record.type === "row") {
                     return (
-                        <div className={"listIcon"} style={{marginLeft: `calc(${checkParentsCount(record, Rows)} * 20px`}}>
+                        <div className={"listIcon"} style={{marginLeft: `calc(${parentsCount} * 20px`}}>
                             <img src={listIcon} alt={"icon"}/>
                             <span></span>
                         </div>
@@ -94,7 +96,7 @@ const ItemsTree = observer(() => {
                     <div className={"iconsCont"}>
                         <div className={"topLevelIcon"}>
                             <img src={topLevelIcon} alt={"icon"}/>
-                            {checkChilds(record.id, Rows).length && checkChilds(record.id, Rows)[0].type !== "row" ?
+                            {childs.length && childs[0].type !== "row" ?
                                 <span></span>
                                 :
                                 <></>
@@ -137,8 +139,14 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 return (
                     editingRow.id === record.id ?
-                        <Input required id={"Title"} placeholder={"Название"} value={editingRow.title} onChange={handleInputChange('title')}
-                               onKeyPress={handleEnterPress}/>
+                        <Input
+                            required
+                            id={"Title"}
+                            placeholder={"Название"}
+                            value={editingRow.title}
+                            onChange={handleInputChange('title')}
+                            onKeyPress={handleEnterPress}
+                        />
                         :
                         value
                 )
@@ -152,8 +160,13 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 if (editingRow.id === record.id && record.type !== "level") {
                     return (
-                        <Input required placeholder={"Ед. измерения"} value={editingRow.unit} onChange={handleInputChange('unit')}
-                               onKeyPress={handleEnterPress}/>
+                        <Input
+                            required
+                            placeholder={"Ед. измерения"}
+                            value={editingRow.unit}
+                            onChange={handleInputChange('unit')}
+                            onKeyPress={handleEnterPress}
+                        />
                     )
                 }
                 return (
@@ -169,8 +182,13 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 if (editingRow.id === record.id && record.type !== "level") {
                     return (
-                        <Input required value={editingRow.quantity} placeholder={"Количество"} onChange={handleInputChange('quantity')}
-                               onKeyPress={handleEnterPress}/>
+                        <Input
+                            required
+                            value={editingRow.quantity}
+                            placeholder={"Количество"}
+                            onChange={handleInputChange('quantity')}
+                            onKeyPress={handleEnterPress}
+                        />
                     )
                 }
                 return (
@@ -186,8 +204,13 @@ const ItemsTree = observer(() => {
             render: (value, record, index) => {
                 if (editingRow.id === record.id && record.type !== "level") {
                     return (
-                        <Input required value={editingRow.unitPrice} placeholder={"Цена за ед."} onChange={handleInputChange('unitPrice')}
-                               onKeyPress={handleEnterPress}/>
+                        <Input
+                            required
+                            value={editingRow.unitPrice}
+                            placeholder={"Цена за ед."}
+                            onChange={handleInputChange('unitPrice')}
+                            onKeyPress={handleEnterPress}
+                        />
                     )
                 }
                 return (

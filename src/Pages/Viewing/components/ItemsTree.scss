@@ -21,6 +21,8 @@
   z-index: 999;
   img{
     background: var(--background-color);
+    width: 20px !important;
+    height: 16px !important;
   }
   .levelOnRedFolder{
     position: absolute;
@@ -55,13 +57,14 @@
 
 .iconsCont{
   display: flex;
-  box-sizing: border-box;
   align-items: center;
   .addStrIcon{
     margin-left: 0.5rem;
     cursor: pointer;
     opacity: 1;
     transition: 0.3s;
+    width: 20px !important;
+    height: 16px !important;
   }
   .opacity{
     opacity: 0;

@@ -83,11 +83,12 @@ export const handleAddRow = (
             childs = arr.filter(item => {
                 if (item.parent === row.id && item.type === "row") return item
             })
-            childs.length ?
+            if (childs.length) {
                 rowIndex = arr.findIndex(item => item.id === childs[childs.length - 1].id)
-                :
+            } else {
                 rowIndex = arr.findIndex(item => item.id === row.id)
-            break
+            }
+            break;
 
         case "addList":
             rowIndex = arr.findIndex(item => item.id === row.id)

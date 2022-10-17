@@ -51,7 +51,7 @@ const ItemsTree = observer(() => {
                                 <img
                                     src={parentsCount === 1 ? secondLevelIcon : deeperLevelIcon}
                                     alt={"icon"}
-                                    style={{marginLeft: `calc(${parentsCount} * 20px`, width: "20px", height: "16px", zIndex: "999"}}
+                                    style={{marginLeft: `calc(${parentsCount} * 20px`}}
                                 />
                                 {parentsCount > 1 ?
                                     <div className={"levelOnRedFolder"}>{parentsCount+1}</div>
@@ -68,7 +68,7 @@ const ItemsTree = observer(() => {
                                 <img
                                     src={deeperLevelIcon}
                                     alt={"icon"}
-                                    style={editingRow.id !== record.id ? {display: "block", width: "20px", height: "16px"} : {display: "none"}}
+                                    style={editingRow.id !== record.id ? {display: "block"} : {display: "none"}}
                                     className={rowIndexForButton === index ? "addStrIcon" : "addStrIcon opacity"}
                                     onClick={handleAddRow("addChildLevel", record, Rows, setIsEditing, setEditingRow)}
                                 />
